@@ -10,36 +10,11 @@
       href="https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-straight/css/uicons-regular-straight.css"
     />
 
-    <!--=============== SWIPER CSS ===============-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="./assets/css/styles.css" />
-    <script type="module" src="assets/js/list.js"></script>
     <title>Ecommerce Website</title>
   </head>
   <body>
-    <!--=============== HEADER ===============-->
-    <header class="header">
-      <nav class="nav container">
-        <div class="nav__menu" id="nav-menu">
-        </div>
-        <div class="header__user-actions">
-          <a href="wishlist.html" class="header__action-btn" title="Wishlist">
-            <img src="assets/img/icon-heart.svg" alt="" />
-            <span class="count">3</span>
-          </a>
-          <a href="cart.html" class="header__action-btn" title="Cart">
-            <img src="assets/img/icon-cart.svg" alt="" />
-            <span class="count">3</span>
-          </a>
-        </div>
-      </nav>
-    </header>
-
     <!--=============== MAIN ===============-->
     <main class="main">
       <!--=============== PRODUCTS ===============-->
@@ -52,40 +27,6 @@
     <!--=============== CART ===============-->
     <section class="cart section--lg container">
       <div class="table__container">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Imagen</th>
-              <th>Producto</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
-              <th>Subtotal</th>
-              <th>Eliminar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <img
-                  src="./assets/img/products/product-1-1.png"
-                  alt=""
-                  class="table__img"
-                />
-              </td>
-              <td>
-                <h3 class="table__title">
-                  Pullover Hugo Boss
-                </h3>
-              </td>
-              <td>
-                <span class="table__price">$1800</span>
-              </td>
-              <td><input type="number" value="1" class="quantity" /></td>
-              <td><span class="subtotal">$1800</span></td>
-              <td><i class="fi fi-rs-trash table__trash"></i></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
 
       <div class="cart__actions">
@@ -93,12 +34,9 @@
           <i class="fi-rs-shopping-bag"></i> Solicitar compra
         </a>
       </div>
-
     </section>
 
-    <!--=============== MAIN JS ===============-->
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/shop.js"></script>
-    <script src="assets/js/components.js"></script>
+    <!--=============== JS CODE ===============-->
+    <script src="js/utils.js"></script>
   </body>
 </html>
