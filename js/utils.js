@@ -42,48 +42,73 @@ class Product {
 }
 
 class Cart {
-    constructor() {}
+    l
+    constructor() {
+        this.product = ``;
+        this.content =  document.createElement('div');
+        this.content.className = 'table__container';
+    }
 
     render() {
-        const tableHTML = document.createElement('table');
-        tableHTML.className = 'table';
+        this.content.innerHTML = `
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Rename</th>
+                    </tr>
+                </thead>
+                    ${this.product}
+                <tbody>
+                </tbody>
+            </table>
+            
+            <div class="cart__actions">
+                <a href="#" class="btn flex btn__md">
+                    <i class="fi-rs-shopping-bag"></i> Solicitar compra
+                </a>
+            </div>`;
+        return this.content;
+    }
 
-        // Set the inner HTML of the table element directly
-        tableHTML.innerHTML = `
-            <thead>
-              <tr>
-                <th>Imagen</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-                <th>Eliminar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
+    addToCart({code, name, color, size, price}) {
+        this.product = `
+            <tr>
                 <td>
-                  <img src="./assets/img/products/P1.png" alt="Producto" class="table__img" />
+                    <img
+                        src="./assets/img/products/P1.png"
+                        alt=""
+                        class="table__img"
+                    />
                 </td>
                 <td>
-                  <h3 class="table__title">Pullover Hugo Boss</h3>
+                    <h3 class="table__title">
+                        J.Crew Mercantile Women's Short-Sleeve
+                    </h3>
+                    <p class="table__description">
+                        Lorem ipsum dolor sit amet consectetur.
+                    </p>
                 </td>
-                <td><span class="table__price">$1800</span></td>
-                <td><input type="number" value="1" class="quantity" /></td>
-                <td><span class="subtotal">$1800</span></td>
+                <td>
+                    <span class="table__price">$110</span>
+                </td>
+                <td><input type="number" value="3" class="quantity" /></td>
+                <td><span class="subtotal">$220</span></td>
                 <td><i class="fi fi-rs-trash table__trash"></i></td>
-              </tr>
-            </tbody>`;
-
-        return tableHTML;
+            </tr>
+        `;
     }
 }
 
-const table_app = document.querySelector('.table__container');
-if (table_app) {
+const cartSection = document.querySelector('.cart.section--lg.container');
+if (cartSection) {
     const table = new Cart();
     const tableElement = table.render();
-    table_app.appendChild(tableElement);
+    cartSection.appendChild(tableElement);
 } else {
     console.error("El contenedor '.table__container' no existe en el DOM.");
 }
