@@ -21,35 +21,82 @@ class Product {
         
             <!-- Contenido del producto -->
             <div class="product__content">
-            <span class="product__category">${this.size}</span>
-            <a href="details.html">
-                <h3 class="product__title">${this.name}</h3>
-            </a>
+                <span class="product__category">${this.size}</span>
+                <a href="details.html">
+                    <h3 class="product__title">${this.name}</h3>
+                </a>
 
-            <!-- Price -->
-            <div class="product__price flex">
-                <span class="new__price">$${this.price}</span>
-            </div>
+                <!-- Price -->
+                <div class="product__price flex">
+                    <span class="new__price">$${this.price}</span>
+                </div>
 
-            <!-- Add to car -->
-            <a href="#" class="action__btn cart__btn" aria-label="Añadir al carrito" data-product-id="${this.code}">
-                <i class="fi fi-rs-shopping-bag-add"></i>
-            </a>
-        </div>`;
+                <!-- Add to cart -->
+                <a 
+                    href="#" 
+                    class="action__btn cart__btn" 
+                    aria-label="Añadir al carrito" 
+                    data-product-id="${this.code}">
+                    <i class="fi fi-rs-shopping-bag-add"></i>
+                </a>
+            </div>`;
+
+        const addToCartBtn = productHTML.querySelector('.cart__btn');
+        addToCartBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            
+            table.addToCart({
+                code: this.code,
+                name: this.name,
+                color: this.color,
+                size: this.size,
+                price: this.price
+            });
+        });
 
         return productHTML;
     }
 }
 
+
 class Cart {
-    l
     constructor() {
-        this.product = ``;
-        this.content =  document.createElement('div');
+        this.products = [];
+        this.content = document.createElement('div');
         this.content.className = 'table__container';
     }
 
     render() {
+        let productHTML = this.products.map(product => `
+            <tr>
+                <td>
+                    <img
+                        src="./assets/img/products/${product.code}.png"
+                        alt="${product.name}"
+                        class="table__img"
+                    />
+                </td>
+                <td>
+                    <h3 class="table__title">
+                        ${product.name} (${product.color}, ${product.size})
+                    </h3>
+                    <p class="table__description">
+                        Descripción del producto.
+                    </p>
+                </td>
+                <td>
+                    <span class="table__price">$${product.price}</span>
+                </td>
+                <td>
+                    <input type="number" value="${product.quantity}" class="quantity" data-code="${product.code}" />
+                </td>
+                <td>
+                    <span class="subtotal">$${product.price * product.quantity}</span>
+                </td>
+                <td><i class="fi fi-rs-trash table__trash" data-code="${product.code}"></i></td>
+            </tr>
+        `).join('');
+
         this.content.innerHTML = `
             <table class="table">
                 <thead>
@@ -59,54 +106,60 @@ class Cart {
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Subtotal</th>
-                        <th>Rename</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                    ${this.product}
                 <tbody>
+                    ${productHTML}
                 </tbody>
             </table>
-            
             <div class="cart__actions">
                 <a href="#" class="btn flex btn__md">
                     <i class="fi-rs-shopping-bag"></i> Solicitar compra
                 </a>
             </div>`;
+        
+        const requestToBuyBtn = this.content.querySelector('.btn.flex.btn__md');
+        requestToBuyBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            
+            
+        });
+
+        // Actualizar el DOM para reflejar los cambios en el carrito
         return this.content;
     }
 
     addToCart({code, name, color, size, price}) {
-        this.product = `
-            <tr>
-                <td>
-                    <img
-                        src="./assets/img/products/P1.png"
-                        alt=""
-                        class="table__img"
-                    />
-                </td>
-                <td>
-                    <h3 class="table__title">
-                        J.Crew Mercantile Women's Short-Sleeve
-                    </h3>
-                    <p class="table__description">
-                        Lorem ipsum dolor sit amet consectetur.
-                    </p>
-                </td>
-                <td>
-                    <span class="table__price">$110</span>
-                </td>
-                <td><input type="number" value="3" class="quantity" /></td>
-                <td><span class="subtotal">$220</span></td>
-                <td><i class="fi fi-rs-trash table__trash"></i></td>
-            </tr>
-        `;
+        // Verificar si el producto ya está en el carrito
+        const existingProduct = this.products.find(product => product.code === code);
+
+        if (existingProduct) {
+            // Si el producto ya está en el carrito, incrementamos la cantidad
+            existingProduct.quantity += 1;
+        } else {
+            // Si no está, agregamos el nuevo producto con cantidad inicial de 1
+            this.products.push({
+                code,
+                name,
+                color,
+                size,
+                price,
+                quantity: 1
+            });
+        }
+
+        // Renderizamos nuevamente el carrito para reflejar los cambios
+        this.render();
     }
 }
 
+// ========== DOM =============
 const cartSection = document.querySelector('.cart.section--lg.container');
+let table; // Global
+
 if (cartSection) {
-    const table = new Cart();
+    table = new Cart();
     const tableElement = table.render();
     cartSection.appendChild(tableElement);
 } else {
@@ -130,7 +183,6 @@ const plist = [
     [13, 'Boss Hugo Boss', 'Gris','Talla única', 1800],
     [14, 'Hugo Boss', 'Gris','Talla única', 1800]
 ];
-
 
 const app = document.querySelector('.products__container.grid');
 if (app) {
