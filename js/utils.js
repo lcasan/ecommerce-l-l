@@ -122,8 +122,14 @@ class Cart {
         const requestToBuyBtn = this.content.querySelector('.btn.flex.btn__md');
         requestToBuyBtn.addEventListener('click', (event) => {
             event.preventDefault();
-            
-            
+            let msg = '';
+            this.products.map(product => {
+                msg += JSON.stringify(product);
+            })
+            alert('solicitar')
+            const phoneNumber = '5354725584';
+            const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(msg)}`;
+            window.location.href = whatsappURL; 
         });
 
         // Actualizar el DOM para reflejar los cambios en el carrito
